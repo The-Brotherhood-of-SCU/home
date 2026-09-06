@@ -1,5 +1,5 @@
 ---
-import { SITE } from '../data/site';
+import { SITE, FRIEND_LINKS } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -46,11 +46,31 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <div
-      class="mt-14 flex flex-col gap-2 border-t border-paper/15 pt-6 font-mono text-xs text-paper/40 sm:flex-row sm:items-center sm:justify-between"
-    >
-      <p>© {year} The Brotherhood of SCU</p>
-      <p>非官方学生组织 · 与四川大学无隶属关系</p>
+    <div class="mt-14 border-t border-paper/15 pt-8">
+      <p class="font-mono text-xs tracking-[0.25em] text-paper/40 uppercase">Links</p>
+      <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        {
+          FRIEND_LINKS.map((l) => (
+            <li>
+              <a
+                href={l.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-paper/75 transition-colors hover:text-paper"
+              >
+                {l.name} ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div
+        class="mt-8 flex flex-col gap-2 font-mono text-xs text-paper/40 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p>© {year} The Brotherhood of SCU</p>
+        <p>非官方学生组织 · 与四川大学无隶属关系</p>
+      </div>
     </div>
   </div>
 </footer>

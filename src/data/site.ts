@@ -10,6 +10,15 @@ export const SITE = {
     'The Brotherhood of SCU，由四川大学在校生及校友自发组织的开发者社区。我们致力于打破信息隔阂，构建一个纯粹、自由、富有创造力的开源生态空间。',
 } as const;
 
+/** 友情链接 */
+export const FRIEND_LINKS = [
+  { name: "Jeanhua's Blog", link: 'https://www.blog.jeanhua.cn/' },
+  { name: "57U's Blog", link: 'https://blog.57u.tech' },
+  { name: '小鱼日记', link: 'https://youweiyu.github.io/' },
+  { name: "XiNian_dada's Blog", link: 'https://leeinx.com/' },
+  { name: "SCU Maker's BBS", link: 'https://bbs.scumaker.org/' },
+] as const;
+
 export const CONCEPTS = [
   {
     no: '01',
