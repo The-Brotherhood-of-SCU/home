@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostRow from '../../components/PostRow.astro';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const y = post.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+
+<Base title="文章" description="The Brotherhood of SCU 社区博客：记录我们的开发、思考与校园生活。">
+  <section class="wrap pt-12 sm:pt-16">
+    <p class="kicker">Blog · Blog of The Developers</p>
+    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
+      文章<span class="text-crimson">。</span>
+    </h1>
+    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft">
+      记录社区项目的开发历程、技术思考，以及川大校园里的那些事。共 {posts.length} 篇。
+    </p>
+  </section>
+
+  {
+    years.map((year) => (
+      <section class="wrap pt-16">
+        <div class="flex items-baseline gap-4 border-b border-ink/70 pb-3">
+          <span class="font-serif text-2xl font-black">{year}</span>
+          <span class="font-mono text-xs text-ink-faint">{byYear.get(year)!.length} 篇</span>
+        </div>
+        <div class="border-t border-line">
+          {byYear.get(year)!.map((post) => (
+            <PostRow
+              title={post.data.title}
+              date={post.data.date}
+              description={post.data.description}
+              tags={post.data.tags}
+              href={`/blog/${post.id}/`}
+            />
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</Base>

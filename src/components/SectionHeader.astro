@@ -1,0 +1,22 @@
+---
+interface Props {
+  no: string;
+  title: string;
+  more?: { href: string; label: string };
+}
+const { no, title, more } = Astro.props;
+---
+
+<div class="mb-10 flex items-end justify-between gap-6 border-b border-ink/80 pb-4">
+  <h2 class="flex items-baseline gap-4">
+    <span class="font-mono text-sm text-crimson">{no}</span>
+    <span class="font-serif text-2xl font-bold tracking-wide sm:text-3xl">{title}</span>
+  </h2>
+  {
+    more && (
+      <a href={more.href} class="shrink-0 font-mono text-xs tracking-widest text-ink-soft transition-colors hover:text-crimson">
+        {more.label} →
+      </a>
+    )
+  }
+</div>

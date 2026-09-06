@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { SITE, PROJECTS, MORE_PROJECTS } from '../data/site';
+---
+
+<Base title="开源项目" description="The Brotherhood of SCU 的开源项目：服务于川大人的工具、资源与文档。">
+  <section class="wrap pt-12 sm:pt-16">
+    <p class="kicker">Open Source</p>
+    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
+      开源项目<span class="text-crimson">。</span>
+    </h1>
+    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft">
+      服务于川大人的工具、资源与文档。全部代码托管于
+      <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="u-link">GitHub 组织</a>，欢迎 issue 与 PR。
+    </p>
+  </section>
+
+  <section class="wrap pt-16">
+    <SectionHeader no="01" title="代表作" />
+    <div class="grid gap-6 border-t-0 sm:grid-cols-2 lg:grid-cols-3">
+      {PROJECTS.map((p) => <ProjectCard {...p} />)}
+    </div>
+  </section>
+
+  <section class="wrap pt-24">
+    <SectionHeader no="02" title="更多项目名录" />
+    <div class="border-t border-line">
+      {
+        MORE_PROJECTS.map((p) => (
+          <a
+            href={`${SITE.github}/${p.name}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group grid gap-1 border-b border-line py-5 sm:grid-cols-[20rem_1fr] sm:items-baseline sm:gap-8"
+          >
+            <span class="font-mono text-sm transition-colors group-hover:text-crimson">{p.name}</span>
+            <span class="flex items-baseline justify-between gap-4 text-sm text-ink-soft">
+              {p.description}
+              <span class="shrink-0 font-mono text-[11px] text-ink-faint transition-colors group-hover:text-crimson">↗</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 font-mono text-xs text-ink-faint">
+      以上仅收录部分项目，完整列表见
+      <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-crimson">GitHub 组织主页 ↗</a>
+    </p>
+  </section>
+</Base>

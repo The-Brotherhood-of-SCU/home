@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { SITE, CONCEPTS, CODE_OF_CONDUCT, QUOTES } from '../data/site';
+---
+
+<Base title="关于我们" description={SITE.description}>
+  <section class="wrap pt-12 sm:pt-16">
+    <p class="kicker">About Us</p>
+    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
+      关于我们<span class="text-crimson">。</span>
+    </h1>
+  </section>
+
+  <section class="wrap pt-16">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+      <div class="prose-book max-w-none">
+        <p>
+          <strong>The Brotherhood of SCU</strong> 是一个由四川大学在校生及校友自发组织的开发者社区。
+          我们致力于打破信息隔阂，构建一个纯粹、自由、富有创造力的开源生态空间。
+        </p>
+        <p>
+          社区以「代码为纽带 · 创新为信仰 · 社区为家园」为信条：从教务系统插件到课表应用，
+          从抢课脚本到论文模板，我们把自己在川大生活学习中踩过的坑，变成所有人都能用的工具。
+        </p>
+        <p class="font-serif text-lg leading-loose text-ink">
+          「海纳百川，有容乃大；<br />川流不息，代码为舟。」
+        </p>
+      </div>
+      <aside class="border-l border-line pl-8 max-lg:border-l-0 max-lg:pl-0">
+        <p class="font-mono text-xs tracking-[0.25em] text-ink-faint uppercase">Info</p>
+        <dl class="mt-4 space-y-4 text-sm">
+          <div>
+            <dt class="font-mono text-[11px] tracking-widest text-crimson">NAME</dt>
+            <dd class="mt-1">The Brotherhood of SCU<br /><span class="text-ink-soft">四川大学开源社区（非官方）</span></dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[11px] tracking-widest text-crimson">FOUNDED</dt>
+            <dd class="mt-1">由川大在校生与校友发起</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[11px] tracking-widest text-crimson">CONTACT</dt>
+            <dd class="mt-1">
+              <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="u-link">GitHub 组织 ↗</a><br />
+              <a href={`mailto:${SITE.email}`} class="u-link">邮件联系</a><br />
+              <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="u-link">Discord 频道 ↗</a>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="wrap pt-24">
+    <SectionHeader no="01" title="我们的理念" />
+    <div class="border-t border-line">
+      {
+        CONCEPTS.map((c) => (
+          <div class="grid gap-2 border-b border-line py-8 sm:grid-cols-[5rem_14rem_1fr] sm:items-baseline sm:gap-6">
+            <span class="font-mono text-sm text-crimson">{c.no}</span>
+            <h3 class="font-serif text-2xl font-bold">{c.name}</h3>
+            <p class="text-sm leading-loose text-ink-soft sm:text-[15px]">{c.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap pt-24">
+    <SectionHeader no="02" title="行为准则" />
+    <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+      {
+        CODE_OF_CONDUCT.map((c) => (
+          <div class="bg-paper p-7">
+            <h3 class="font-serif text-lg font-bold">
+              <span class="mr-2 font-mono text-xs text-crimson">✓</span>
+              {c.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">{c.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap pt-24">
+    <SectionHeader no="03" title="墙上的话" />
+    <div class="columns-1 gap-8 border-t border-line sm:columns-2">
+      {
+        QUOTES.map((q) => (
+          <figure class="break-inside-avoid border-b border-line py-8">
+            <blockquote class="font-serif text-lg leading-loose">「{q.words}」</blockquote>
+            <figcaption class="mt-3 font-mono text-[11px] tracking-widest text-ink-faint">—— {q.name}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+</Base>

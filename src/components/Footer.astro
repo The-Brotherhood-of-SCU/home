@@ -1,0 +1,56 @@
+---
+import { SITE } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-28 bg-ink text-paper">
+  <div class="wrap py-16">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <p class="font-serif text-2xl font-bold tracking-wide">川流不息，代码为舟。</p>
+        <p class="mt-4 max-w-md text-sm leading-loose text-paper/60">
+          The Brotherhood of SCU，由四川大学在校生及校友自发组织的开发者社区。
+          海纳百川，有容乃大——期待与你共同书写川大开发者的故事。
+        </p>
+      </div>
+
+      <nav aria-label="页脚导航">
+        <p class="font-mono text-xs tracking-[0.25em] text-paper/40 uppercase">Sitemap</p>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href="/blog/" class="text-paper/75 transition-colors hover:text-paper">文章</a></li>
+          <li><a href="/projects/" class="text-paper/75 transition-colors hover:text-paper">开源项目</a></li>
+          <li><a href="/members/" class="text-paper/75 transition-colors hover:text-paper">成员名录</a></li>
+          <li><a href="/about/" class="text-paper/75 transition-colors hover:text-paper">关于我们</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="font-mono text-xs tracking-[0.25em] text-paper/40 uppercase">Contact</p>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li>
+            <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="text-paper/75 transition-colors hover:text-paper"
+              >GitHub ↗</a
+            >
+          </li>
+          <li>
+            <a href={`mailto:${SITE.email}`} class="text-paper/75 transition-colors hover:text-paper">邮箱</a>
+          </li>
+          <li><a href="/rss.xml" class="text-paper/75 transition-colors hover:text-paper">RSS 订阅</a></li>
+          <li>
+            <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="text-paper/75 transition-colors hover:text-paper"
+              >Discord 频道</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-2 border-t border-paper/15 pt-6 font-mono text-xs text-paper/40 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} The Brotherhood of SCU</p>
+      <p>非官方学生组织 · 与四川大学无隶属关系</p>
+    </div>
+  </div>
+</footer>

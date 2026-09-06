@@ -1,0 +1,154 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostRow from '../components/PostRow.astro';
+import { SITE, CONCEPTS, PROJECTS, MEMBERS, ADMINS, formatDate } from '../data/site';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+
+const featured = PROJECTS.filter((p) => p.featured);
+
+// 以固定基数 + 文章数做统计，仓库数可随后续手动更新
+const REPO_COUNT = 47;
+
+function excerpt(body: string | undefined, fallback: string): string {
+  if (!body) return fallback;
+  const text = body
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#>*`~|-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text.slice(0, 86) + (text.length > 86 ? '……' : '');
+}
+---
+
+<Base>
+  <!-- 报头 -->
+  <section class="wrap pt-12 pb-0 sm:pt-16">
+    <div class="flex items-center justify-between border-b border-ink/70 pb-3 font-mono text-[11px] tracking-[0.2em] text-ink-faint">
+      <span>THE BROTHERHOOD OF SCU</span>
+      <span class="hidden sm:inline">四川大学 · 非官方 · 非营利</span>
+      <span>SCUBRO.DEV</span>
+    </div>
+
+    <div class="border-b border-ink/70 py-14 sm:py-20">
+      <p class="kicker rise">一个非官方的四川大学开源组织</p>
+      <h1
+        class="rise-2 mt-7 font-serif text-[clamp(2.4rem,6.5vw,4.5rem)] leading-[1.28] font-black tracking-wide"
+      >
+        川流不息<span class="text-crimson">，</span>代码为舟<span class="text-crimson">。</span>
+      </h1>
+      <p class="rise-3 mt-8 max-w-2xl font-serif text-base leading-loose text-ink-soft sm:text-lg">
+        海纳百川，有容乃大。我们是由四川大学在校生与校友自发组成的开发者社区，
+        致力于打破信息隔阂，构建一个纯粹、自由、富有创造力的开源生态空间。
+      </p>
+      <div class="rise-3 mt-10 flex flex-wrap gap-4">
+        <a
+          href="/projects/"
+          class="bg-crimson px-7 py-3 text-sm text-paper transition-colors hover:bg-crimson-deep"
+        >
+          浏览开源项目
+        </a>
+        <a
+          href={SITE.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border border-ink/60 px-7 py-3 text-sm transition-colors hover:border-crimson hover:text-crimson"
+        >
+          加入我们 · GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3">
+      {
+        [
+          { num: `${REPO_COUNT}`, zh: '公开仓库', en: 'REPOS' },
+          { num: `${MEMBERS.length}`, zh: '社区成员', en: 'MEMBERS' },          { num: '∞', zh: '欢迎任何人', en: 'OPEN TO ALL' },
+        ].map((s) => (
+          <div class="border-r border-line py-8 pr-4 last:border-r-0 sm:py-10">
+            <p class="font-serif text-3xl font-black sm:text-4xl">{s.num}</p>
+            <p class="mt-2 text-xs text-ink-soft sm:text-sm">
+              {s.zh} <span class="hidden font-mono text-[10px] tracking-widest text-ink-faint sm:inline">{s.en}</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 理念 -->
+  <section class="wrap pt-24">
+    <SectionHeader no="01" title="我们的理念" />
+    <div class="border-t border-line">
+      {
+        CONCEPTS.map((c) => (
+          <div class="grid gap-2 border-b border-line py-8 sm:grid-cols-[5rem_14rem_1fr] sm:items-baseline sm:gap-6">
+            <span class="font-mono text-sm text-crimson">{c.no}</span>
+            <h3 class="font-serif text-2xl font-bold">
+              {c.name}
+              <span class="ml-3 hidden align-middle font-mono text-[10px] tracking-[0.2em] text-ink-faint sm:inline">
+                {c.en.toUpperCase()}
+              </span>
+            </h3>
+            <p class="text-sm leading-loose text-ink-soft sm:text-[15px]">{c.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 开源项目 -->
+  <section class="wrap pt-24">
+    <SectionHeader no="02" title="开源项目" more={{ href: '/projects/', label: '全部项目' }} />
+    <div class="grid gap-6 sm:grid-cols-2">
+      {featured.map((p) => <ProjectCard {...p} />)}
+    </div>
+  </section>
+
+  <!-- 最新文章 -->
+  <section class="wrap pt-24">
+    <SectionHeader no="03" title="最新文章" more={{ href: '/blog/', label: '全部文章' }} />
+    <div class="border-t border-line">
+      {
+        posts.map((post) => (
+          <PostRow
+            title={post.data.title}
+            date={post.data.date}
+            description={post.data.description ?? excerpt(post.body, '点击阅读全文。')}
+            tags={post.data.tags}
+            href={`/blog/${post.id}/`}
+          />
+        ))
+      }
+    </div>
+    <p class="mt-6 font-mono text-xs text-ink-faint">
+      <a href="/rss.xml" class="transition-colors hover:text-crimson">RSS 订阅 ↗</a>
+      <span class="mx-3">/</span>最近更新 {posts.length > 0 ? formatDate(posts[0].data.date) : '—'}
+    </p>
+  </section>
+
+  <!-- 成员 -->
+  <section class="wrap pt-24">
+    <SectionHeader no="04" title="成员名录" more={{ href: '/members/', label: '查看全部' }} />
+    <div class="grid border-t border-line sm:grid-cols-2 sm:gap-x-12">
+      {
+        ADMINS.map((m) => (
+          <div class="flex items-baseline justify-between gap-4 border-b border-line py-5">
+            <div class="flex min-w-0 items-baseline gap-2.5">
+              <span class="size-1.5 shrink-0 translate-y-[-2px] rounded-full bg-crimson" aria-label="ADMIN" />
+              <span class="font-serif text-lg font-bold">{m.name}</span>
+              <span class="truncate font-mono text-xs text-ink-faint">@{m.login}</span>
+            </div>
+            <span class="hidden min-w-0 flex-1 truncate text-right text-sm text-ink-faint md:block">{m.bio}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

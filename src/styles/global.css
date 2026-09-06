@@ -1,0 +1,163 @@
+@import 'tailwindcss';
+
+@theme {
+  /* 纸与墨：暖纸白、近黑墨色、川大锦绣红 */
+  --color-paper: #faf8f3;
+  --color-paper-deep: #f1ede2;
+  --color-paper-sink: #e9e4d5;
+  --color-ink: #211e19;
+  --color-ink-soft: #6c6659;
+  --color-ink-faint: #99917e;
+  --color-line: #e2dbc9;
+  --color-crimson: #b5121b;
+  --color-crimson-deep: #8e0e15;
+
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+  ::selection {
+    background: var(--color-crimson);
+    color: var(--color-paper);
+  }
+
+  /* 正文里的链接：墨色 + 悬停朱红下划线 */
+  .u-link {
+    @apply text-ink underline decoration-line underline-offset-4 transition-colors;
+  }
+  .u-link:hover {
+    @apply text-crimson decoration-crimson;
+  }
+}
+
+@layer components {
+  /* 版心 */
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  /* 眉题：等宽小字 + 朱红 */
+  .kicker {
+    @apply font-mono text-xs tracking-[0.25em] text-crimson uppercase;
+  }
+
+  /* 卡片悬停的细线加重 */
+  .hairline-card {
+    @apply border border-line bg-white/60 transition-colors duration-200;
+  }
+  .hairline-card:hover {
+    @apply border-ink-faint;
+  }
+}
+
+/* ---------- 长文排版（博客正文） ---------- */
+.prose-book {
+  @apply font-serif;
+  font-size: 1.0625rem;
+  line-height: 2.1;
+  letter-spacing: 0.01em;
+}
+.prose-book p {
+  @apply my-6 text-justify;
+}
+.prose-book h2,
+.prose-book h3,
+.prose-book h4 {
+  @apply mt-12 mb-4 font-bold tracking-wide;
+}
+.prose-book h2 {
+  @apply border-b border-line pb-3 text-2xl;
+}
+.prose-book h3 {
+  @apply text-xl;
+}
+.prose-book h4 {
+  @apply text-lg;
+}
+.prose-book a {
+  @apply text-crimson underline decoration-crimson/40 underline-offset-4 hover:decoration-crimson;
+}
+.prose-book strong {
+  @apply font-bold;
+}
+.prose-book img {
+  @apply my-8 w-full border border-line;
+}
+.prose-book blockquote {
+  @apply my-8 border-l-2 border-crimson bg-paper-deep/60 px-6 py-2 text-ink-soft;
+}
+.prose-book ul {
+  @apply my-6 list-disc pl-6;
+}
+.prose-book ol {
+  @apply my-6 list-decimal pl-6;
+}
+.prose-book li {
+  @apply my-1.5 pl-1;
+}
+.prose-book li::marker {
+  @apply text-ink-faint;
+}
+.prose-book hr {
+  @apply my-12 border-line;
+}
+.prose-book code:not(pre code) {
+  @apply rounded-xs bg-paper-deep px-1.5 py-0.5 font-mono text-[0.85em] text-crimson-deep;
+}
+.prose-book pre {
+  @apply my-8 overflow-x-auto p-5 text-[0.875rem] leading-relaxed;
+}
+.prose-book pre.astro-code {
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-deep) !important;
+}
+.prose-book table {
+  @apply my-8 w-full border-collapse text-left text-[0.95em];
+}
+.prose-book th {
+  @apply border border-line bg-paper-deep px-3 py-2 font-bold;
+}
+.prose-book td {
+  @apply border border-line px-3 py-2;
+}
+
+/* 首屏唯一的入场动效：淡入，不抢戏 */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rise-2 {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+.rise-3 {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .rise-2,
+  .rise-3 {
+    animation: none;
+  }
+}

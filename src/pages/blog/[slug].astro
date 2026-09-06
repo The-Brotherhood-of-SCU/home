@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SITE, formatDate } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      newer: i > 0 ? posts[i - 1] : undefined,
+      older: i < posts.length - 1 ? posts[i + 1] : undefined,
+    },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, author, tags } = post.data;
+---
+
+<Base title={title} description={description ?? `${title} — ${SITE.name} 社区博客`}>
+  <article class="wrap pt-12 sm:pt-16">
+    <header class="mx-auto max-w-[44rem]">
+      <p class="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase">
+        <a href="/blog/" class="transition-colors hover:text-crimson">← 文章</a>
+      </p>
+      <h1 class="mt-6 font-serif text-3xl leading-snug font-black tracking-wide sm:text-4xl">{title}</h1>
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-line pb-8 font-mono text-xs text-ink-faint">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span>文 / {author}</span>
+        {
+          tags.length > 0 && (
+            <span class="flex gap-2">
+              {tags.map((t) => (
+                <span class="text-crimson">#{t}</span>
+              ))}
+            </span>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="prose-book mx-auto mt-4 max-w-[44rem]">
+      <Content />
+    </div>
+
+    <footer class="mx-auto mt-20 max-w-[44rem]">
+      <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+        {
+          older ? (
+            <a href={`/blog/${older.id}/`} class="bg-paper p-6 transition-colors hover:bg-paper-deep">
+              <p class="font-mono text-[11px] tracking-widest text-ink-faint">← 较早一篇</p>
+              <p class="mt-2 font-serif font-bold leading-snug">{older.data.title}</p>
+            </a>
+          ) : (
+            <div class="bg-paper p-6 text-ink-faint"><p class="font-mono text-[11px] tracking-widest">已是第一篇</p></div>
+          )
+        }
+        {
+          newer ? (
+            <a href={`/blog/${newer.id}/`} class="bg-paper p-6 text-right transition-colors hover:bg-paper-deep">
+              <p class="font-mono text-[11px] tracking-widest text-ink-faint">较新一篇 →</p>
+              <p class="mt-2 font-serif font-bold leading-snug">{newer.data.title}</p>
+            </a>
+          ) : (
+            <div class="bg-paper p-6 text-right text-ink-faint"><p class="font-mono text-[11px] tracking-widest">已是最新一篇</p></div>
+          )
+        }
+      </div>
+    </footer>
+  </article>
+</Base>

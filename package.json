@@ -1,0 +1,22 @@
+{
+  "name": "scubro-homepage",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Brotherhood of SCU — 四川大学开源社区主页",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync-members": "node scripts/sync-members.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/noto-serif-sc": "^5.2.5",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.13.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

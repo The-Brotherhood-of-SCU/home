@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { MEMBERS, ADMINS, SITE } from '../data/site';
+
+const members = MEMBERS.filter((m) => m.role !== 'ADMIN');
+---
+
+<Base title="成员名录" description="The Brotherhood of SCU 的成员名录：一群热爱技术的川大人。">
+  <section class="wrap pt-12 sm:pt-16">
+    <p class="kicker">Members</p>
+    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
+      成员名录<span class="text-crimson">。</span>
+    </h1>
+    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft">
+      一群热爱技术的川大人，来自不同学院、不同年级，共 {MEMBERS.length} 人。
+      <span class="mx-1 inline-block size-1.5 rounded-full bg-crimson align-middle" aria-hidden="true"></span>
+      为社区核心成员。
+    </p>
+  </section>
+
+  <section class="wrap pt-16">
+    <SectionHeader no="01" title={`核心成员 · ${ADMINS.length}`} />
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        ADMINS.map((m) => (
+          <div class="hairline-card p-6">
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <img
+                  src={`https://github.com/${m.login}.png?size=80`}
+                  alt={`${m.name} 的头像`}
+                  loading="lazy"
+                  decoding="async"
+                  class="size-12 grayscale"
+                />
+                <div>
+                  <p class="font-serif text-lg font-bold">{m.name}</p>
+                  <p class="font-mono text-xs text-ink-faint">@{m.login}</p>
+                </div>
+              </div>
+              <span class="font-mono text-[10px] tracking-widest text-crimson">ADMIN</span>
+            </div>
+            {m.bio && <p class="mt-4 text-sm leading-relaxed text-ink-soft">{m.bio}</p>}
+            <a
+              href={`https://github.com/${m.login}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 inline-block font-mono text-[11px] tracking-widest text-ink-faint transition-colors hover:text-crimson"
+            >
+              GITHUB ↗
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap pt-24">
+    <SectionHeader no="02" title={`社区成员 · ${members.length}`} />
+    <div class="columns-1 border-t border-line sm:columns-2 lg:columns-3">
+      {
+        members.map((m) => (
+          <a
+            href={`https://github.com/${m.login}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex break-inside-avoid items-baseline justify-between gap-3 border-b border-line py-3.5"
+          >
+            <span class="flex min-w-0 items-baseline gap-2">
+              <span class="font-serif font-bold transition-colors group-hover:text-crimson">{m.name}</span>
+              <span class="truncate font-mono text-xs text-ink-faint">@{m.login}</span>
+            </span>
+            <span class="shrink-0 font-mono text-[11px] text-line transition-colors group-hover:text-crimson">↗</span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 font-mono text-xs text-ink-faint">
+      想加入？在
+      <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-crimson">GitHub</a>
+      上找到我们，或来
+      <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-crimson">Discord 频道</a>
+      聊聊。
+    </p>
+  </section>
+</Base>
