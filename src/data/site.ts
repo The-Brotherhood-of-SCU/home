@@ -17,7 +17,7 @@ export const FRIEND_LINKS = [
   { name: '小鱼日记', link: 'https://youweiyu.github.io/' },
   { name: "XiNian_dada's Blog", link: 'https://leeinx.com/' },
   { name: "SCU Maker's BBS", link: 'https://bbs.scumaker.org/' },
-  { name: "oldplum's blog", link: 'https://blog.oldplum.dev/' }
+  { name: "oldplum's blog", link: 'https://blog.oldplum.dev/' },
 ] as const;
 
 export const CONCEPTS = [
