@@ -5,8 +5,8 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="relative mt-28 overflow-hidden rounded-t-[2.5rem] text-paper">
-  <!-- 深色底 + 内部极光辉光 -->
-  <div class="absolute inset-0 bg-[#17161b]" aria-hidden="true"></div>
+  <!-- 深色底 + 内部极光辉光（夜间模式下比页面底色再深一档，保持层次） -->
+  <div class="absolute inset-0 bg-[#17161b] dark:bg-[#101014]" aria-hidden="true"></div>
   <div class="absolute -top-44 left-[15%] size-[34rem] rounded-full bg-crimson/30 blur-[130px]" aria-hidden="true"></div>
   <div class="absolute -right-24 -bottom-56 size-[30rem] rounded-full bg-aurora-gold/20 blur-[130px]" aria-hidden="true"></div>
   <div

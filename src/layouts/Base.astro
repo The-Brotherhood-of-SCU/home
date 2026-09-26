@@ -25,8 +25,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f7f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151419" />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // 首屏渲染前定主题：localStorage 记忆 > 系统偏好，避免换页闪白/闪黑
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
     </script>
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/png" href="/favicon.png" sizes="64x64" />

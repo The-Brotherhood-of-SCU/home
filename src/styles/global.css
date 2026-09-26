@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* 类名式夜间模式：html.dark 时启用 dark: 变体（切换逻辑见 Base.astro / Header.astro） */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* 极光玻璃：暖白基底 · 川大红金极光 · 一抹川江蓝 */
   --color-paper: #f8f7f4;
@@ -25,6 +28,7 @@
     scroll-behavior: smooth;
     /* 极光光斑与长英文词都不允许把页面撑出横向滚动 */
     overflow-x: clip;
+    color-scheme: light;
   }
 
   body {
@@ -386,4 +390,108 @@
   .btn-ghost:hover {
     transform: none;
   }
+}
+
+/* ---------- 夜间模式（html.dark） ---------- */
+/* 覆盖语义 token 即可让所有 text-ink / bg-paper / border-line 等工具类自动跟随；
+   新增配色请继续走 token，不要写死浅色值 */
+
+.dark {
+  /* 暖调「夜航墨」色板：与页脚 #17161b 同一暖黑系 */
+  --color-paper: #151419;
+  --color-paper-deep: #1d1c22;
+  --color-paper-sink: #232128;
+  --color-ink: #ece9e2;
+  --color-ink-soft: #a5a1ab;
+  --color-ink-faint: #77737f;
+  --color-line: #2e2c34;
+  /* 朱红提亮一档保证暗底可读；crimson-deep 语义转为「高亮红」 */
+  --color-crimson: #d5253a;
+  --color-crimson-deep: #ff8289;
+  color-scheme: dark;
+}
+
+/* 页脚是昼夜恒定的深色表面：夜间下把局部 --color-paper 翻回浅色，
+   页脚里所有 text-paper / text-paper/60 等工具类（编译为引用该变量的
+   color-mix）随之重新变亮，模板无需写 dark: 变体 */
+.dark footer {
+  --color-paper: #ece9e2;
+}
+
+html.dark body {
+  background:
+    radial-gradient(1100px 760px at 88% -8%, rgba(255, 180, 92, 0.09), transparent 62%),
+    radial-gradient(1000px 720px at -12% 6%, rgba(217, 43, 58, 0.13), transparent 58%),
+    radial-gradient(900px 700px at 50% 118%, rgba(123, 162, 255, 0.1), transparent 60%),
+    linear-gradient(180deg, #161519 0%, #111015 100%);
+  background-attachment: fixed;
+}
+
+/* 玻璃拟态：暗色下改为深色烟玻璃 + 白色高光描边 */
+.dark .glass-card {
+  background: linear-gradient(145deg, rgba(38, 36, 45, 0.78) 0%, rgba(26, 25, 32, 0.55) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 12px 32px -16px rgba(0, 0, 0, 0.55);
+}
+.dark .glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    0 24px 48px -20px rgba(213, 37, 58, 0.25),
+    0 12px 32px -16px rgba(0, 0, 0, 0.55);
+}
+.dark .glass-lite {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.dark .glass-lite:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 28px -16px rgba(213, 37, 58, 0.28);
+}
+.dark .glass-chip {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 14px -8px rgba(0, 0, 0, 0.6);
+}
+.dark .btn-ghost {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* 夜里的极光更透：光斑透明度略升 */
+.dark .aurora-blob--red {
+  background: radial-gradient(closest-side, rgba(217, 43, 58, 0.34), transparent 72%);
+}
+.dark .aurora-blob--gold {
+  background: radial-gradient(closest-side, rgba(255, 180, 92, 0.36), transparent 72%);
+}
+.dark .aurora-blob--blue {
+  background: radial-gradient(closest-side, rgba(123, 162, 255, 0.3), transparent 72%);
+}
+.dark .aurora-blob--rose {
+  background: radial-gradient(closest-side, rgba(255, 90, 99, 0.22), transparent 72%);
+}
+
+/* 长文排版：引用块 / 行内代码 / 图片与代码块描边 */
+.dark .prose-book img {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.dark .prose-book blockquote {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 32px -20px rgba(0, 0, 0, 0.5);
+}
+.dark .prose-book code:not(pre code) {
+  background-color: color-mix(in srgb, var(--color-crimson) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-crimson) 28%, transparent);
+}
+.dark .prose-book pre.astro-code {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.6);
+}
+/* Shiki 双主题（github-light / github-dark）：背景保持 paper-deep，只换 token 配色 */
+.dark .prose-book pre.astro-code,
+.dark .prose-book pre.astro-code span {
+  color: var(--shiki-dark) !important;
 }

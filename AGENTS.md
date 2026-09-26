@@ -26,10 +26,12 @@ No lint or test scripts are configured. There is no tailwind.config — Tailwind
 
 "Aurora glass"（极光玻璃拟态），defined in `src/styles/global.css` via Tailwind v4 `@theme` — warm `paper`/`ink` neutrals + `crimson` #b5121b brand + aurora accents (`aurora-red`/`aurora-gold`/`aurora-blue`), Noto Serif SC headings, sans body. Reuse these tokens and the existing component classes (`.wrap`, `.kicker`, `.glass-card`, `.glass-lite`, `.glass-chip`, `.btn-primary`, `.btn-ghost`, `.text-gradient`, `.g-line`, `.u-link`, `.prose-book` for long-form blog typography) instead of introducing ad-hoc colors or fonts.
 
+Dark mode（夜间模式）is class-based: `html.dark` toggled by the Header button, persisted in `localStorage` (`theme`), initialized before first paint by an inline script in `Base.astro` (falls back to `prefers-color-scheme`). `global.css` redefines the semantic `--color-*` tokens under `.dark` (plus dark body/glass/prose/aurora overrides), so token-based utilities adapt automatically — add new colors through tokens or `dark:` variants (enabled via `@custom-variant dark`), never hardcoded light values.
+
 Motion lives in two places: the fixed `.aurora-scene` background layer in `Base.astro` (CSS keyframe drift), and the scroll-reveal system — add `data-reveal` (optionally `style="--reveal-delay: Nms"` for stagger) to any element; the IntersectionObserver script in `Base.astro` toggles `.is-revealed`. Stats use `data-count-to` for count-up. All motion is disabled under `prefers-reduced-motion`, and initial hidden state is gated on an `html.js` class so no-JS visitors see everything. `html` has `overflow-x: clip` — don't remove it.
 
 ## Gotchas
 
 - `astro.config.mjs` `site` must stay in sync with `public/CNAME` (`scubro.dev`); canonical URLs, OG tags, sitemap, and RSS all derive from it. Don't delete `public/CNAME`.
 - Every push to `main` auto-deploys via GitHub Actions (`.github/workflows/deploy.yml`, `withastro/action@v3`) — there is no staging environment.
-- Code blocks use Shiki theme `github-light`.
+- Code blocks use Shiki dual themes `github-light`/`github-dark` (`defaultColor: 'light'`); the dark palette is applied by the `.dark` rule on `.astro-code` in `global.css`.
