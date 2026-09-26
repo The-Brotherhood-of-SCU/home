@@ -1,0 +1,37 @@
+name: Sync members
+
+on:
+  schedule:
+    # 每天 UTC 02:30（北京时间 10:30）
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-members
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync members
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-members.mjs
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- src/data/members.json; then
+            echo "成员名单无变化，跳过提交"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/members.json
+            git commit -m "chore: 自动同步组织成员名单"
+            git push
+          fi
