@@ -23,11 +23,26 @@ const { title, description, date, author, tags } = post.data;
 <Base title={title} description={description ?? `${title} — ${SITE.name} 社区博客`}>
   <article class="wrap pt-12 sm:pt-16">
     <header class="mx-auto max-w-[44rem]">
-      <p class="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase">
-        <a href="/blog/" class="transition-colors hover:text-crimson">← 文章</a>
+      <p data-reveal>
+        <a
+          href="/blog/"
+          class="glass-chip !px-3.5 !py-1 transition-colors hover:text-crimson"
+        >
+          ← 文章
+        </a>
       </p>
-      <h1 class="mt-6 font-serif text-3xl leading-snug font-black tracking-wide sm:text-4xl">{title}</h1>
-      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-line pb-8 font-mono text-xs text-ink-faint">
+      <h1
+        class="mt-7 font-serif text-3xl leading-snug font-black tracking-wide sm:text-4xl"
+        data-reveal
+        style="--reveal-delay: 100ms"
+      >
+        {title}
+      </h1>
+      <div
+        class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 pb-8 font-mono text-xs text-ink-faint"
+        data-reveal
+        style="--reveal-delay: 200ms"
+      >
         <time datetime={date.toISOString()}>{formatDate(date)}</time>
         <span>文 / {author}</span>
         {
@@ -40,32 +55,37 @@ const { title, description, date, author, tags } = post.data;
           )
         }
       </div>
+      <div class="g-line" data-reveal style="--reveal-delay: 260ms"></div>
     </header>
 
-    <div class="prose-book mx-auto mt-4 max-w-[44rem]">
+    <div class="prose-book mx-auto mt-4 max-w-[44rem]" data-reveal style="--reveal-delay: 300ms">
       <Content />
     </div>
 
     <footer class="mx-auto mt-20 max-w-[44rem]">
-      <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+      <div class="grid gap-4 sm:grid-cols-2">
         {
           older ? (
-            <a href={`/blog/${older.id}/`} class="bg-paper p-6 transition-colors hover:bg-paper-deep">
+            <a href={`/blog/${older.id}/`} class="glass-card p-6">
               <p class="font-mono text-[11px] tracking-widest text-ink-faint">← 较早一篇</p>
               <p class="mt-2 font-serif font-bold leading-snug">{older.data.title}</p>
             </a>
           ) : (
-            <div class="bg-paper p-6 text-ink-faint"><p class="font-mono text-[11px] tracking-widest">已是第一篇</p></div>
+            <div class="glass-card p-6 text-ink-faint">
+              <p class="font-mono text-[11px] tracking-widest">已是第一篇</p>
+            </div>
           )
         }
         {
           newer ? (
-            <a href={`/blog/${newer.id}/`} class="bg-paper p-6 text-right transition-colors hover:bg-paper-deep">
+            <a href={`/blog/${newer.id}/`} class="glass-card p-6 text-right">
               <p class="font-mono text-[11px] tracking-widest text-ink-faint">较新一篇 →</p>
               <p class="mt-2 font-serif font-bold leading-snug">{newer.data.title}</p>
             </a>
           ) : (
-            <div class="bg-paper p-6 text-right text-ink-faint"><p class="font-mono text-[11px] tracking-widest">已是最新一篇</p></div>
+            <div class="glass-card p-6 text-right text-ink-faint">
+              <p class="font-mono text-[11px] tracking-widest">已是最新一篇</p>
+            </div>
           )
         }
       </div>

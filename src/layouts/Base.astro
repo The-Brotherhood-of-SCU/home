@@ -25,6 +25,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/png" href="/favicon.png" sizes="64x64" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -36,10 +39,70 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
   </head>
   <body class="flex min-h-screen flex-col">
+    <!-- 固定极光背景层：缓慢漂移的光斑 + 细噪点 -->
+    <div class="aurora-scene" aria-hidden="true">
+      <div class="aurora-blob aurora-blob--red"></div>
+      <div class="aurora-blob aurora-blob--gold"></div>
+      <div class="aurora-blob aurora-blob--blue"></div>
+      <div class="aurora-blob aurora-blob--rose"></div>
+    </div>
+
     <Header />
     <main class="flex-1">
       <slot />
     </main>
     <Footer />
+
+    <script>
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 滚动渐显：进入视口后依次浮现，仅触发一次
+      const revealEls = document.querySelectorAll('[data-reveal]');
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        revealEls.forEach((el) => el.classList.add('is-revealed'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0, rootMargin: '0px 0px -60px 0px' },
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
+      // 数字滚动：data-count-to 为目标值，首屏内容里直接写好终值兜底
+      const counters = document.querySelectorAll<HTMLElement>('[data-count-to]');
+      if (counters.length > 0 && !prefersReduced && 'IntersectionObserver' in window) {
+        const run = (el: HTMLElement) => {
+          const target = Number(el.dataset.countTo ?? '0');
+          const duration = 1400;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = String(Math.round(target * eased));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+        const counterIo = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                run(entry.target as HTMLElement);
+                counterIo.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.5 },
+        );
+        counters.forEach((el) => counterIo.observe(el));
+      }
+    </script>
   </body>
 </html>

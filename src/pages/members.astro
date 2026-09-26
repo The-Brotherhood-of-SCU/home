@@ -7,12 +7,12 @@ const members = MEMBERS.filter((m) => m.role !== 'ADMIN');
 ---
 
 <Base title="成员名录" description="The Brotherhood of SCU 的成员名录：一群热爱技术的川大人。">
-  <section class="wrap pt-12 sm:pt-16">
-    <p class="kicker">Members</p>
-    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
-      成员名录<span class="text-crimson">。</span>
+  <section class="wrap pt-14 sm:pt-20">
+    <p class="glass-chip" data-reveal>Members</p>
+    <h1 class="mt-7 font-serif text-4xl font-black tracking-wide sm:text-5xl" data-reveal style="--reveal-delay: 120ms">
+      成员名录<span class="text-gradient">。</span>
     </h1>
-    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft">
+    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft" data-reveal style="--reveal-delay: 220ms">
       一群热爱技术的川大人，来自不同学院、不同年级，共 {MEMBERS.length} 人。
       <span class="mx-1 inline-block size-1.5 rounded-full bg-crimson align-middle" aria-hidden="true"></span>
       为社区核心成员。
@@ -21,19 +21,21 @@ const members = MEMBERS.filter((m) => m.role !== 'ADMIN');
 
   <section class="wrap pt-16">
     <SectionHeader no="01" title={`核心成员 · ${ADMINS.length}`} />
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        ADMINS.map((m) => (
-          <div class="hairline-card p-6">
+        ADMINS.map((m, i) => (
+          <div class="glass-card group p-6" data-reveal style={`--reveal-delay: ${(i % 3) * 80}ms`}>
             <div class="flex items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <img
-                  src={`https://github.com/${m.login}.png?size=80`}
-                  alt={`${m.name} 的头像`}
-                  loading="lazy"
-                  decoding="async"
-                  class="size-12"
-                />
+                <span class="shrink-0 rounded-full bg-gradient-to-br from-crimson to-aurora-gold p-[2px]">
+                  <img
+                    src={`https://github.com/${m.login}.png?size=80`}
+                    alt={`${m.name} 的头像`}
+                    loading="lazy"
+                    decoding="async"
+                    class="size-12 rounded-full border border-white/80 object-cover"
+                  />
+                </span>
                 <div>
                   <p class="font-serif text-lg font-bold">{m.name}</p>
                   <p class="font-mono text-xs text-ink-faint">@{m.login}</p>
@@ -46,9 +48,9 @@ const members = MEMBERS.filter((m) => m.role !== 'ADMIN');
               href={`https://github.com/${m.login}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="mt-4 inline-block font-mono text-[11px] tracking-widest text-ink-faint transition-colors hover:text-crimson"
+              class="mt-4 inline-flex items-center gap-1 font-mono text-[11px] tracking-widest text-ink-faint transition-colors hover:text-crimson"
             >
-              GITHUB ↗
+              GITHUB <span class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </a>
           </div>
         ))
@@ -58,25 +60,31 @@ const members = MEMBERS.filter((m) => m.role !== 'ADMIN');
 
   <section class="wrap pt-24">
     <SectionHeader no="02" title={`社区成员 · ${members.length}`} />
-    <div class="columns-1 border-t border-line sm:columns-2 lg:columns-3">
+    <div class="columns-1 gap-4 sm:columns-2 lg:columns-3">
       {
-        members.map((m) => (
+        members.map((m, i) => (
           <a
             href={`https://github.com/${m.login}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="group flex break-inside-avoid items-baseline justify-between gap-3 border-b border-line py-3.5"
+            class="glass-lite group mb-4 flex break-inside-avoid items-baseline justify-between gap-3 px-5 py-3.5"
+            data-reveal
+            style={`--reveal-delay: ${Math.min(i, 8) * 40}ms`}
           >
             <span class="flex min-w-0 items-baseline gap-2">
               <span class="font-serif font-bold transition-colors group-hover:text-crimson">{m.name}</span>
               <span class="truncate font-mono text-xs text-ink-faint">@{m.login}</span>
             </span>
-            <span class="shrink-0 font-mono text-[11px] text-line transition-colors group-hover:text-crimson">↗</span>
+            <span
+              class="shrink-0 font-mono text-[11px] text-ink-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-crimson"
+            >
+              ↗
+            </span>
           </a>
         ))
       }
     </div>
-    <p class="mt-8 font-mono text-xs text-ink-faint">
+    <p class="mt-8 font-mono text-xs text-ink-faint" data-reveal>
       想加入？在
       <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-crimson">GitHub</a>
       上找到我们，或来

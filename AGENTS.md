@@ -24,7 +24,9 @@ No lint or test scripts are configured. There is no tailwind.config — Tailwind
 
 ## Design system
 
-Defined in `src/styles/global.css` via Tailwind v4 `@theme` — the "paper & ink" palette (`paper`/`ink` neutrals + `crimson` #b5121b) and Noto Serif SC. Reuse these tokens and the existing component classes (`.wrap`, `.kicker`, `.hairline-card`, `.u-link`, `.prose-book` for long-form blog typography) instead of introducing ad-hoc colors or fonts.
+"Aurora glass"（极光玻璃拟态），defined in `src/styles/global.css` via Tailwind v4 `@theme` — warm `paper`/`ink` neutrals + `crimson` #b5121b brand + aurora accents (`aurora-red`/`aurora-gold`/`aurora-blue`), Noto Serif SC headings, sans body. Reuse these tokens and the existing component classes (`.wrap`, `.kicker`, `.glass-card`, `.glass-lite`, `.glass-chip`, `.btn-primary`, `.btn-ghost`, `.text-gradient`, `.g-line`, `.u-link`, `.prose-book` for long-form blog typography) instead of introducing ad-hoc colors or fonts.
+
+Motion lives in two places: the fixed `.aurora-scene` background layer in `Base.astro` (CSS keyframe drift), and the scroll-reveal system — add `data-reveal` (optionally `style="--reveal-delay: Nms"` for stagger) to any element; the IntersectionObserver script in `Base.astro` toggles `.is-revealed`. Stats use `data-count-to` for count-up. All motion is disabled under `prefers-reduced-motion`, and initial hidden state is gated on an `html.js` class so no-JS visitors see everything. `html` has `overflow-x: clip` — don't remove it.
 
 ## Gotchas
 

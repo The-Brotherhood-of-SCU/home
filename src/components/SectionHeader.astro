@@ -7,16 +7,24 @@ interface Props {
 const { no, title, more } = Astro.props;
 ---
 
-<div class="mb-10 flex items-end justify-between gap-6 border-b border-ink/80 pb-4">
-  <h2 class="flex items-baseline gap-4">
-    <span class="font-mono text-sm text-crimson">{no}</span>
-    <span class="font-serif text-2xl font-bold tracking-wide sm:text-3xl">{title}</span>
-  </h2>
-  {
-    more && (
-      <a href={more.href} class="shrink-0 font-mono text-xs tracking-widest text-ink-soft transition-colors hover:text-crimson">
-        {more.label} →
-      </a>
-    )
-  }
+<div class="mb-10" data-reveal>
+  <div class="flex items-end justify-between gap-6">
+    <h2 class="flex items-baseline gap-4">
+      <span class="text-gradient font-serif text-2xl font-black sm:text-3xl">{no}</span>
+      <span class="font-serif text-2xl font-bold tracking-wide sm:text-3xl">{title}</span>
+    </h2>
+    {
+      more && (
+        <a
+          href={more.href}
+          class="group inline-flex shrink-0 items-center gap-1.5 rounded-full border bg-white/50 px-4 py-1.5 font-mono text-xs text-ink-soft backdrop-blur-md transition-all"
+          style="border-color: rgba(32, 31, 36, 0.12);"
+        >
+          {more.label}
+          <span class="text-crimson transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </a>
+      )
+    }
+  </div>
+  <div class="g-line mt-4"></div>
 </div>

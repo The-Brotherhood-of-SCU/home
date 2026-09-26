@@ -25,56 +25,57 @@ function excerpt(body: string | undefined, fallback: string): string {
     .trim();
   return text.slice(0, 86) + (text.length > 86 ? '……' : '');
 }
+
+const stats = [
+  { num: `${REPO_COUNT}`, to: `${REPO_COUNT}`, plus: true, zh: '公开仓库', en: 'REPOS' },
+  { num: `${MEMBERS.length}`, to: `${MEMBERS.length}`, plus: false, zh: '社区成员', en: 'MEMBERS' },
+  { num: '∞', to: undefined, plus: false, zh: '欢迎任何人', en: 'OPEN TO ALL' },
+];
 ---
 
 <Base>
-  <!-- 报头 -->
-  <section class="wrap pt-12 pb-0 sm:pt-16">
-    <div class="flex items-center justify-between border-b border-ink/70 pb-3 font-mono text-[11px] tracking-[0.2em] text-ink-faint">
-      <span>THE BROTHERHOOD OF SCU</span>
-      <span class="hidden sm:inline">四川大学 · 非官方 · 非营利</span>
-      <span>SCUBRO.DEV</span>
-    </div>
-
-    <div class="border-b border-ink/70 py-14 sm:py-20">
-      <p class="kicker rise">一个非官方的四川大学开源组织</p>
+  <!-- 首屏 -->
+  <section class="wrap pt-16 sm:pt-24">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="glass-chip" data-reveal>一个非官方的四川大学开源组织</p>
       <h1
-        class="rise-2 mt-7 font-serif text-[clamp(2.4rem,6.5vw,4.5rem)] leading-[1.28] font-black tracking-wide"
+        class="mt-8 font-serif text-[clamp(2.6rem,7vw,4.8rem)] leading-[1.25] font-black tracking-wide"
+        data-reveal
+        style="--reveal-delay: 120ms"
       >
-        川流不息<span class="text-crimson">，</span>代码为舟<span class="text-crimson">。</span>
+        川流不息<span class="text-crimson">，</span><br />
+        <span class="text-gradient">代码为舟</span><span class="text-crimson">。</span>
       </h1>
-      <p class="rise-3 mt-8 max-w-2xl font-serif text-base leading-loose text-ink-soft sm:text-lg">
+      <p
+        class="mx-auto mt-7 max-w-2xl text-base leading-loose text-ink-soft sm:text-lg"
+        data-reveal
+        style="--reveal-delay: 240ms"
+      >
         海纳百川，有容乃大。我们是由四川大学在校生与校友自发组成的开发者社区，
         致力于打破信息隔阂，构建一个纯粹、自由、富有创造力的开源生态空间。
       </p>
-      <div class="rise-3 mt-10 flex flex-wrap gap-4">
-        <a
-          href="/projects/"
-          class="bg-crimson px-7 py-3 text-sm text-paper transition-colors hover:bg-crimson-deep"
-        >
+      <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal style="--reveal-delay: 360ms">
+        <a href="/projects/" class="btn-primary">
           浏览开源项目
+          <span aria-hidden="true">→</span>
         </a>
-        <a
-          href={SITE.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="border border-ink/60 px-7 py-3 text-sm transition-colors hover:border-crimson hover:text-crimson"
-        >
-          加入我们 · GitHub ↗
-        </a>
+        <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="btn-ghost">加入我们 · GitHub ↗</a>
       </div>
     </div>
 
-    <div class="grid grid-cols-3">
+    <!-- 统计：玻璃卡 + 数字滚动 -->
+    <div class="mx-auto mt-16 grid max-w-3xl grid-cols-3 gap-4 sm:gap-6">
       {
-        [
-          { num: `${REPO_COUNT}`, zh: '公开仓库', en: 'REPOS' },
-          { num: `${MEMBERS.length}`, zh: '社区成员', en: 'MEMBERS' },          { num: '∞', zh: '欢迎任何人', en: 'OPEN TO ALL' },
-        ].map((s) => (
-          <div class="border-r border-line py-8 pr-4 last:border-r-0 sm:py-10">
-            <p class="font-serif text-3xl font-black sm:text-4xl">{s.num}</p>
-            <p class="mt-2 text-xs text-ink-soft sm:text-sm">
-              {s.zh} <span class="hidden font-mono text-[10px] tracking-widest text-ink-faint sm:inline">{s.en}</span>
+        stats.map((s, i) => (
+          <div class="glass-card px-2 py-7 text-center sm:py-9" data-reveal style={`--reveal-delay: ${420 + i * 110}ms`}>
+            <p class="font-serif text-3xl font-black sm:text-4xl">
+              {s.to ? <span data-count-to={s.to}>{s.num}</span> : <span>{s.num}</span>}
+              {s.plus && <span class="text-gradient">+</span>}
+            </p>
+            <div class="mx-auto mt-3 h-0.5 w-8 rounded-full bg-gradient-to-r from-crimson to-aurora-gold" aria-hidden="true"></div>
+            <p class="mt-3 text-xs text-ink-soft sm:text-sm">
+              {s.zh}
+              <span class="hidden font-mono text-[10px] tracking-widest text-ink-faint sm:inline"> {s.en}</span>
             </p>
           </div>
         ))
@@ -85,18 +86,18 @@ function excerpt(body: string | undefined, fallback: string): string {
   <!-- 理念 -->
   <section class="wrap pt-24">
     <SectionHeader no="01" title="我们的理念" />
-    <div class="border-t border-line">
+    <div class="grid gap-5 md:grid-cols-3 md:gap-6">
       {
-        CONCEPTS.map((c) => (
-          <div class="grid gap-2 border-b border-line py-8 sm:grid-cols-[5rem_14rem_1fr] sm:items-baseline sm:gap-6">
-            <span class="font-mono text-sm text-crimson">{c.no}</span>
-            <h3 class="font-serif text-2xl font-bold">
+        CONCEPTS.map((c, i) => (
+          <div class="glass-card group p-7 sm:p-8" data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+            <span class="text-gradient font-serif text-3xl font-black">{c.no}</span>
+            <h3 class="mt-4 font-serif text-xl font-bold">
               {c.name}
-              <span class="ml-3 hidden align-middle font-mono text-[10px] tracking-[0.2em] text-ink-faint sm:inline">
+              <span class="ml-2 hidden align-middle font-mono text-[10px] tracking-[0.2em] text-ink-faint sm:inline">
                 {c.en.toUpperCase()}
               </span>
             </h3>
-            <p class="text-sm leading-loose text-ink-soft sm:text-[15px]">{c.description}</p>
+            <p class="mt-3 text-sm leading-loose text-ink-soft">{c.description}</p>
           </div>
         ))
       }
@@ -107,27 +108,32 @@ function excerpt(body: string | undefined, fallback: string): string {
   <section class="wrap pt-24">
     <SectionHeader no="02" title="开源项目" more={{ href: '/projects/', label: '全部项目' }} />
     <div class="grid gap-6 sm:grid-cols-2">
-      {featured.map((p) => <ProjectCard {...p} />)}
+      {featured.map((p, i) => (
+        <div data-reveal style={`--reveal-delay: ${(i % 2) * 90}ms`}>
+          <ProjectCard {...p} class="h-full" />
+        </div>
+      ))}
     </div>
   </section>
 
   <!-- 最新文章 -->
   <section class="wrap pt-24">
     <SectionHeader no="03" title="最新文章" more={{ href: '/blog/', label: '全部文章' }} />
-    <div class="border-t border-line">
+    <div class="space-y-4">
       {
-        posts.map((post) => (
+        posts.map((post, i) => (
           <PostRow
             title={post.data.title}
             date={post.data.date}
             description={post.data.description ?? excerpt(post.body, '点击阅读全文。')}
             tags={post.data.tags}
             href={`/blog/${post.id}/`}
+            delay={i * 80}
           />
         ))
       }
     </div>
-    <p class="mt-6 font-mono text-xs text-ink-faint">
+    <p class="mt-6 font-mono text-xs text-ink-faint" data-reveal>
       <a href="/rss.xml" class="transition-colors hover:text-crimson">RSS 订阅 ↗</a>
       <span class="mx-3">/</span>最近更新 {posts.length > 0 ? formatDate(posts[0].data.date) : '—'}
     </p>
@@ -136,19 +142,65 @@ function excerpt(body: string | undefined, fallback: string): string {
   <!-- 成员 -->
   <section class="wrap pt-24">
     <SectionHeader no="04" title="成员名录" more={{ href: '/members/', label: '查看全部' }} />
-    <div class="grid border-t border-line sm:grid-cols-2 sm:gap-x-12">
+    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5">
       {
-        ADMINS.map((m) => (
-          <div class="flex items-baseline justify-between gap-4 border-b border-line py-5">
-            <div class="flex min-w-0 items-baseline gap-2.5">
-              <span class="size-1.5 shrink-0 translate-y-[-2px] rounded-full bg-crimson" aria-label="ADMIN" />
-              <span class="font-serif text-lg font-bold">{m.name}</span>
-              <span class="truncate font-mono text-xs text-ink-faint">@{m.login}</span>
-            </div>
-            <span class="hidden min-w-0 flex-1 truncate text-right text-sm text-ink-faint md:block">{m.bio}</span>
-          </div>
+        ADMINS.map((m, i) => (
+          <a
+            href={`https://github.com/${m.login}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="glass-card group flex min-w-0 items-center gap-4 overflow-hidden p-5"
+            data-reveal
+            style={`--reveal-delay: ${(i % 2) * 80}ms`}
+          >
+            <span class="shrink-0 rounded-full bg-gradient-to-br from-crimson to-aurora-gold p-[2px]">
+              <img
+                src={`https://github.com/${m.login}.png?size=80`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="size-11 rounded-full border border-white/80 object-cover"
+              />
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="flex items-baseline gap-2.5">
+                <span class="font-serif text-lg font-bold">{m.name}</span>
+                <span class="min-w-0 truncate font-mono text-xs text-ink-faint">@{m.login}</span>
+              </span>
+              <span class="mt-0.5 block truncate text-sm text-ink-soft">{m.bio}</span>
+            </span>
+            <span class="shrink-0 font-mono text-[10px] tracking-widest text-crimson">ADMIN</span>
+          </a>
         ))
       }
+    </div>
+  </section>
+
+  <!-- 加入我们 -->
+  <section class="wrap pt-24">
+    <div class="glass-card relative overflow-hidden px-8 py-14 text-center sm:py-16" data-reveal>
+      <div
+        class="absolute -top-24 -left-16 size-72 rounded-full bg-crimson/15 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="absolute -right-20 -bottom-28 size-80 rounded-full bg-aurora-gold/20 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <p class="kicker relative">Join The Brotherhood</p>
+      <h2 class="relative mt-5 font-serif text-3xl font-black tracking-wide sm:text-4xl">
+        与川同舟<span class="text-crimson">，</span>共赴开源<span class="text-crimson">。</span>
+      </h2>
+      <p class="relative mx-auto mt-4 max-w-md text-sm leading-loose text-ink-soft">
+        无论技术深浅，只要有好奇心，这里就是你的舞台。在 GitHub 上找到我们，或来 Discord 聊聊。
+      </p>
+      <div class="relative mt-9 flex flex-wrap justify-center gap-4">
+        <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="btn-primary">
+          GitHub 加入我们
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="btn-ghost">Discord 频道 ↗</a>
+      </div>
     </div>
   </section>
 </Base>

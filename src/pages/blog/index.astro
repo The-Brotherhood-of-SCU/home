@@ -15,31 +15,37 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
 ---
 
 <Base title="文章" description="The Brotherhood of SCU 社区博客：记录我们的开发、思考与校园生活。">
-  <section class="wrap pt-12 sm:pt-16">
-    <p class="kicker">Blog · Blog of The Developers</p>
-    <h1 class="mt-6 border-b border-ink/70 pb-8 font-serif text-4xl font-black tracking-wide sm:text-5xl">
-      文章<span class="text-crimson">。</span>
+  <section class="wrap pt-14 sm:pt-20">
+    <p class="glass-chip" data-reveal>Blog · Blog of The Developers</p>
+    <h1
+      class="mt-7 font-serif text-4xl font-black tracking-wide sm:text-5xl"
+      data-reveal
+      style="--reveal-delay: 120ms"
+    >
+      文章<span class="text-gradient">。</span>
     </h1>
-    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft">
+    <p class="mt-6 max-w-xl text-sm leading-loose text-ink-soft" data-reveal style="--reveal-delay: 220ms">
       记录社区项目的开发历程、技术思考，以及川大校园里的那些事。共 {posts.length} 篇。
     </p>
   </section>
 
   {
-    years.map((year) => (
+    years.map((year, yi) => (
       <section class="wrap pt-16">
-        <div class="flex items-baseline gap-4 border-b border-ink/70 pb-3">
-          <span class="font-serif text-2xl font-black">{year}</span>
+        <div class="flex items-baseline gap-4" data-reveal>
+          <span class="text-gradient font-serif text-2xl font-black">{year}</span>
           <span class="font-mono text-xs text-ink-faint">{byYear.get(year)!.length} 篇</span>
         </div>
-        <div class="border-t border-line">
-          {byYear.get(year)!.map((post) => (
+        <div class="g-line mt-3 mb-5" data-reveal />
+        <div class="space-y-4">
+          {byYear.get(year)!.map((post, i) => (
             <PostRow
               title={post.data.title}
               date={post.data.date}
               description={post.data.description}
               tags={post.data.tags}
               href={`/blog/${post.id}/`}
+              delay={Math.min(i, 5) * 60}
             />
           ))}
         </div>

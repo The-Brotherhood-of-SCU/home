@@ -4,11 +4,22 @@ import { SITE, FRIEND_LINKS } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-28 bg-ink text-paper">
-  <div class="wrap py-16">
+<footer class="relative mt-28 overflow-hidden rounded-t-[2.5rem] text-paper">
+  <!-- 深色底 + 内部极光辉光 -->
+  <div class="absolute inset-0 bg-[#17161b]" aria-hidden="true"></div>
+  <div class="absolute -top-44 left-[15%] size-[34rem] rounded-full bg-crimson/30 blur-[130px]" aria-hidden="true"></div>
+  <div class="absolute -right-24 -bottom-56 size-[30rem] rounded-full bg-aurora-gold/20 blur-[130px]" aria-hidden="true"></div>
+  <div
+    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-aurora-red/70 to-transparent"
+    aria-hidden="true"
+  ></div>
+
+  <div class="wrap relative py-16">
     <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
       <div>
-        <p class="font-serif text-2xl font-bold tracking-wide">川流不息，代码为舟。</p>
+        <p class="font-serif text-2xl font-bold tracking-wide">
+          川流不息<span class="text-aurora-red">，</span>代码为舟<span class="text-aurora-gold">。</span>
+        </p>
         <p class="mt-4 max-w-md text-sm leading-loose text-paper/60">
           The Brotherhood of SCU，由四川大学在校生及校友自发组织的开发者社区。
           海纳百川，有容乃大——期待与你共同书写川大开发者的故事。
@@ -18,10 +29,10 @@ const year = new Date().getFullYear();
       <nav aria-label="页脚导航">
         <p class="font-mono text-xs tracking-[0.25em] text-paper/40 uppercase">Sitemap</p>
         <ul class="mt-4 space-y-2.5 text-sm">
-          <li><a href="/blog/" class="text-paper/75 transition-colors hover:text-paper">文章</a></li>
-          <li><a href="/projects/" class="text-paper/75 transition-colors hover:text-paper">开源项目</a></li>
-          <li><a href="/members/" class="text-paper/75 transition-colors hover:text-paper">成员名录</a></li>
-          <li><a href="/about/" class="text-paper/75 transition-colors hover:text-paper">关于我们</a></li>
+          <li><a href="/blog/" class="text-paper/75 transition-colors hover:text-aurora-gold">文章</a></li>
+          <li><a href="/projects/" class="text-paper/75 transition-colors hover:text-aurora-gold">开源项目</a></li>
+          <li><a href="/members/" class="text-paper/75 transition-colors hover:text-aurora-gold">成员名录</a></li>
+          <li><a href="/about/" class="text-paper/75 transition-colors hover:text-aurora-gold">关于我们</a></li>
         </ul>
       </nav>
 
@@ -29,17 +40,23 @@ const year = new Date().getFullYear();
         <p class="font-mono text-xs tracking-[0.25em] text-paper/40 uppercase">Contact</p>
         <ul class="mt-4 space-y-2.5 text-sm">
           <li>
-            <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="text-paper/75 transition-colors hover:text-paper"
-              >GitHub ↗</a
+            <a
+              href={SITE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-paper/75 transition-colors hover:text-aurora-gold">GitHub ↗</a
             >
           </li>
           <li>
-            <a href={`mailto:${SITE.email}`} class="text-paper/75 transition-colors hover:text-paper">邮箱</a>
+            <a href={`mailto:${SITE.email}`} class="text-paper/75 transition-colors hover:text-aurora-gold">邮箱</a>
           </li>
-          <li><a href="/rss.xml" class="text-paper/75 transition-colors hover:text-paper">RSS 订阅</a></li>
+          <li><a href="/rss.xml" class="text-paper/75 transition-colors hover:text-aurora-gold">RSS 订阅</a></li>
           <li>
-            <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="text-paper/75 transition-colors hover:text-paper"
-              >Discord 频道</a
+            <a
+              href={SITE.discord}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-paper/75 transition-colors hover:text-aurora-gold">Discord 频道</a
             >
           </li>
         </ul>
@@ -56,7 +73,7 @@ const year = new Date().getFullYear();
                 href={l.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-paper/75 transition-colors hover:text-paper"
+                class="text-paper/75 transition-colors hover:text-aurora-gold"
               >
                 {l.name} ↗
               </a>

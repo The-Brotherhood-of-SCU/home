@@ -11,8 +11,11 @@ const nav = [
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-sm">
-  <div class="wrap flex h-16 items-center justify-between gap-6">
+<header class="sticky top-0 z-50 px-4 pt-4 sm:px-6">
+  <div
+    class="mx-auto flex h-14 max-w-5xl items-center justify-between gap-6 rounded-full border bg-white/65 px-5 backdrop-blur-xl sm:px-7"
+    style="border-color: rgba(255, 255, 255, 0.75); box-shadow: 0 8px 32px -16px rgba(32, 31, 36, 0.2);"
+  >
     <a href="/" class="flex items-center gap-3">
       <img src="/images/logo.png" alt="The Brotherhood of SCU 徽记" width="36" height="36" class="size-9 object-contain" />
       <span class="leading-tight">
@@ -26,10 +29,8 @@ const nav = [
         nav.map((item) => (
           <a
             href={item.href}
-            class:list={[
-              'text-sm transition-colors hover:text-crimson',
-              item.match(path) ? 'text-crimson' : 'text-ink-soft',
-            ]}
+            class:list={['nav-link', item.match(path) && 'text-crimson']}
+            aria-current={item.match(path) ? 'page' : undefined}
           >
             {item.label}
           </a>
@@ -56,7 +57,8 @@ const nav = [
         <span class="font-mono text-xs tracking-widest">MENU</span>
       </summary>
       <nav
-        class="absolute top-full right-0 mt-3 w-44 border border-line bg-paper py-2 shadow-sm"
+        class="absolute top-full right-0 mt-3 w-44 rounded-2xl border bg-white/85 py-2 shadow-[0_20px_50px_-20px_rgba(32,31,36,0.35)] backdrop-blur-xl"
+        style="border-color: rgba(255, 255, 255, 0.8);"
         aria-label="移动端导航"
       >
         {
@@ -64,7 +66,7 @@ const nav = [
             <a
               href={item.href}
               class:list={[
-                'block px-5 py-2 text-sm hover:text-crimson',
+                'block px-5 py-2 text-sm transition-colors hover:text-crimson',
                 item.match(path) ? 'text-crimson' : 'text-ink-soft',
               ]}
             >
@@ -76,7 +78,7 @@ const nav = [
           href={SITE.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="block px-5 py-2 text-sm text-ink-soft hover:text-crimson">GitHub ↗</a
+          class="block px-5 py-2 text-sm text-ink-soft transition-colors hover:text-crimson">GitHub ↗</a
         >
       </nav>
     </details>
