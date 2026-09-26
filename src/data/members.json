@@ -84,6 +84,12 @@
     "bio": ""
   },
   {
+    "login": "BlueRain-debug",
+    "name": "BlueRain-debug",
+    "role": "MEMBER",
+    "bio": ""
+  },
+  {
     "login": "ccr39",
     "name": "ccr39",
     "role": "MEMBER",
@@ -108,6 +114,12 @@
     "bio": ""
   },
   {
+    "login": "CocoLee929",
+    "name": "Coco Lee",
+    "role": "MEMBER",
+    "bio": "My idol: Charlie Zhou; \r\nMy master: @oldplum"
+  },
+  {
     "login": "Crane33A",
     "name": "Crane33A",
     "role": "MEMBER",
@@ -116,6 +128,12 @@
   {
     "login": "cryfly666",
     "name": "cryfly666",
+    "role": "MEMBER",
+    "bio": ""
+  },
+  {
+    "login": "cxc654321",
+    "name": "cxc654321",
     "role": "MEMBER",
     "bio": ""
   },
@@ -157,9 +175,9 @@
   },
   {
     "login": "gamefreshman",
-    "name": "HongHui Zhang",
+    "name": "Honghui Zhang",
     "role": "MEMBER",
-    "bio": "A GameFreshMan, CSer, SCUmaker"
+    "bio": "CS undergraduate @ Sichuan University | Proactive agents & world models for decision-making | Seeking Fall 2027 PhD opportunities"
   },
   {
     "login": "GanbarNaito",
@@ -193,7 +211,7 @@
   },
   {
     "login": "HuajiFruit",
-    "name": "BORU DENG",
+    "name": "Under_Tree",
     "role": "MEMBER",
     "bio": ""
   },
@@ -213,7 +231,7 @@
     "login": "ImZhiXia",
     "name": "林栀夏",
     "role": "MEMBER",
-    "bio": "老爹 @jeanhua"
+    "bio": "老板 @jeanhua"
   },
   {
     "login": "Jiaxi-Huang",
@@ -271,9 +289,9 @@
   },
   {
     "login": "LianjinSe",
-    "name": "Lijia Sun",
+    "name": "LianjinSe",
     "role": "MEMBER",
-    "bio": "A postgraduate student majoring in Computer Science at Sichuan University."
+    "bio": "A postgraduate student majoring in Computer Science"
   },
   {
     "login": "liuxqscu",
