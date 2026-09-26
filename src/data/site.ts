@@ -69,13 +69,6 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
-    name: '川大选课助手',
-    en: 'Advanced-SCU_course_catcher',
-    description: '选课季的抢手工具，查询课程容量，助你选上想上的课。',
-    link: 'https://github.com/The-Brotherhood-of-SCU/Advanced-SCU_course_catcher',
-    cover: '/images/projects/course-catcher.avif',
-  },
-  {
     name: 'SCU-CLI',
     en: 'SCU-CLI',
     description: '四川大学校园服务命令行工具：为 AI Agent 提供教务系统、微服务等校园服务操作能力。',
