@@ -91,4 +91,75 @@ const { title, description, date, author, tags } = post.data;
       </div>
     </footer>
   </article>
+
+  <!-- 图片灯箱：点击正文图片放大查看 -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" type="button" aria-label="关闭图片预览">×</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" src="" alt="" />
+      <figcaption class="lightbox__caption"></figcaption>
+    </figure>
+  </div>
 </Base>
+
+<script>
+  const lightbox = document.getElementById('lightbox') as HTMLDivElement | null;
+  if (lightbox) {
+    const imgEl = lightbox.querySelector<HTMLImageElement>('.lightbox__img')!;
+    const captionEl = lightbox.querySelector<HTMLElement>('.lightbox__caption')!;
+    const closeBtn = lightbox.querySelector<HTMLButtonElement>('.lightbox__close')!;
+
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const open = (img: HTMLImageElement) => {
+      clearTimeout(hideTimer);
+      lightbox.removeEventListener('transitionend', onFadeEnd);
+      imgEl.src = img.currentSrc || img.src;
+      imgEl.alt = img.alt;
+      captionEl.textContent = img.alt;
+      captionEl.hidden = !img.alt;
+      lightbox.hidden = false;
+      requestAnimationFrame(() => lightbox.classList.add('is-open'));
+      document.documentElement.style.overflow = 'hidden';
+      closeBtn.focus();
+    };
+
+    // 过渡在遮罩（opacity）和 figure（transform）上，只有遮罩自身的 opacity 结束才算关完
+    const hide = () => {
+      lightbox.hidden = true;
+      imgEl.src = '';
+    };
+    const onFadeEnd = (e: TransitionEvent) => {
+      if (e.target !== lightbox || e.propertyName !== 'opacity') return;
+      lightbox.removeEventListener('transitionend', onFadeEnd);
+      hide();
+    };
+
+    const close = () => {
+      lightbox.classList.remove('is-open');
+      document.documentElement.style.overflow = '';
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        hide();
+      } else {
+        lightbox.addEventListener('transitionend', onFadeEnd);
+        // 兜底：过渡未触发（如标签页被切走）时也能复位
+        hideTimer = setTimeout(hide, 300);
+      }
+    };
+
+    // 只接管未套链接的正文图片，避免破坏原有的图片跳转
+    document.querySelectorAll<HTMLImageElement>('.prose-book img').forEach((img) => {
+      if (img.closest('a')) return;
+      img.classList.add('zoomable');
+      img.addEventListener('click', () => open(img));
+    });
+
+    closeBtn.addEventListener('click', close);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.hidden) close();
+    });
+  }
+</script>
