@@ -13,7 +13,7 @@ const nav = [
 
 <header class="sticky top-0 z-50 px-4 pt-4 sm:px-6">
   <div
-    class="mx-auto flex h-14 max-w-5xl items-center justify-between gap-6 rounded-full border border-white/75 bg-white/65 px-5 shadow-[0_8px_32px_-16px_rgba(32,31,36,0.2)] backdrop-blur-xl sm:px-7 dark:border-white/10 dark:bg-white/[0.06] dark:shadow-[0_8px_32px_-16px_rgba(0,0,0,0.5)]"
+    class="mx-auto flex h-14 max-w-5xl items-center justify-between gap-6 rounded-full border border-white/80 bg-white/70 px-5 shadow-[0_8px_32px_-16px_rgba(24,30,37,0.18)] backdrop-blur-xl sm:px-7 dark:border-white/10 dark:bg-white/[0.06] dark:shadow-[0_8px_32px_-16px_rgba(0,0,0,0.5)]"
   >
     <a href="/" class="flex items-center gap-3">
       <img
@@ -63,7 +63,7 @@ const nav = [
         <span class="font-mono text-xs tracking-widest">MENU</span>
       </summary>
       <nav
-        class="absolute top-full right-0 mt-3 w-44 rounded-2xl border border-white/80 bg-white/85 py-2 shadow-[0_20px_50px_-20px_rgba(32,31,36,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1d1c22]/95 dark:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]"
+        class="absolute top-full right-0 mt-3 w-44 rounded-2xl border border-white/80 bg-white/90 py-2 shadow-[0_20px_50px_-20px_rgba(24,30,37,0.3)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1f2530]/95 dark:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]"
         aria-label="移动端导航"
       >
         {
@@ -129,8 +129,13 @@ const nav = [
 <script>
   // 主题切换：写 html.dark + 持久化到 localStorage；首屏初始化在 Base.astro 内联脚本完成
   const root = document.documentElement;
+  let themeAnimTimer: ReturnType<typeof setTimeout> | undefined;
   for (const btn of document.querySelectorAll('[data-theme-toggle]')) {
     btn.addEventListener('click', () => {
+      // 挂上 theme-anim 让全页颜色做一次平滑交叉过渡，结束后摘掉避免干扰常态动效
+      root.classList.add('theme-anim');
+      clearTimeout(themeAnimTimer);
+      themeAnimTimer = setTimeout(() => root.classList.remove('theme-anim'), 550);
       const dark = root.classList.toggle('dark');
       try {
         localStorage.setItem('theme', dark ? 'dark' : 'light');

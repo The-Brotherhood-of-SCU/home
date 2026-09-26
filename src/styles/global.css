@@ -4,19 +4,20 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* 极光玻璃：暖白基底 · 川大红金极光 · 一抹川江蓝 */
-  --color-paper: #f8f7f4;
-  --color-paper-deep: #efede8;
-  --color-paper-sink: #e8e5de;
-  --color-ink: #201f24;
-  --color-ink-soft: #605d66;
-  --color-ink-faint: #928f99;
-  --color-line: #e6e3dc;
+  /* 净白玻璃：MiniMax 式中性灰白基底 · 川大红锚点 · 高饱和渐变极光 */
+  --color-paper: #f7f8fa;
+  --color-paper-deep: #f2f3f5;
+  --color-paper-sink: #e8eaed;
+  --color-ink: #181e25;
+  --color-ink-soft: #4e5969;
+  --color-ink-faint: #86909c;
+  --color-line: #e5e6eb;
   --color-crimson: #b5121b;
   --color-crimson-deep: #8e0e15;
-  --color-aurora-red: #ff5a63;
-  --color-aurora-gold: #ffb45c;
-  --color-aurora-blue: #7ba2ff;
+  --color-aurora-red: #f52c6b;
+  --color-aurora-gold: #ff7045;
+  --color-aurora-blue: #16a9f3;
+  --color-aurora-violet: #6f2cf5;
 
   --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
   --font-sans: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -35,13 +36,9 @@
     @apply text-ink font-sans antialiased;
     font-size: 16px;
     line-height: 1.9;
-    /* 固定在画布上的淡极光底色，随滚动保持稳定 */
-    background:
-      radial-gradient(1100px 760px at 88% -8%, rgba(255, 180, 92, 0.16), transparent 62%),
-      radial-gradient(1000px 720px at -12% 6%, rgba(181, 18, 27, 0.09), transparent 58%),
-      radial-gradient(900px 700px at 50% 118%, rgba(123, 162, 255, 0.12), transparent 60%),
-      linear-gradient(180deg, #fbfaf8 0%, #f4f2ee 100%);
-    background-attachment: fixed;
+    /* 纯色兜底；真正的昼/夜渐变底在 .aurora-scene 里做透明度交叉淡化 */
+    background-color: var(--color-paper);
+    transition: background-color 0.5s ease;
   }
 
   ::selection {
@@ -71,93 +68,89 @@
 
   /* ---------- 玻璃拟态 ---------- */
 
-  /* 交互玻璃卡：悬停上浮 + 朱红辉光 */
+  /* 交互玻璃卡：净白浮层 + 悬停轻微上浮 */
   .glass-card {
     @apply relative rounded-2xl;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.42) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.62) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow:
-      0 1px 2px rgba(32, 31, 36, 0.04),
-      0 12px 32px -16px rgba(32, 31, 36, 0.14);
-    backdrop-filter: blur(14px) saturate(1.35);
-    -webkit-backdrop-filter: blur(14px) saturate(1.35);
-    transition:
-      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.4s;
-  }
-  .glass-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.95);
-    box-shadow:
-      0 2px 6px rgba(32, 31, 36, 0.05),
-      0 24px 48px -20px rgba(181, 18, 27, 0.22),
-      0 12px 32px -16px rgba(32, 31, 36, 0.14);
-  }
-
-  /* 轻玻璃行：列表项用，动效更克制 */
-  .glass-lite {
-    @apply rounded-xl border bg-white/45 backdrop-blur-md;
-    border-color: rgba(255, 255, 255, 0.65);
+      0 1px 2px rgba(24, 30, 37, 0.04),
+      0 16px 40px -20px rgba(24, 30, 37, 0.12);
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
     transition:
       transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.35s;
   }
+  .glass-card:hover {
+    transform: translateY(-3px);
+    border-color: #fff;
+    box-shadow:
+      0 2px 6px rgba(24, 30, 37, 0.04),
+      0 24px 48px -20px rgba(24, 30, 37, 0.16);
+  }
+
+  /* 轻玻璃行：列表项用，动效更克制 */
+  .glass-lite {
+    @apply rounded-xl border bg-white/55 backdrop-blur-md;
+    border-color: rgba(255, 255, 255, 0.8);
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s;
+  }
   .glass-lite:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 12px 28px -16px rgba(181, 18, 27, 0.2);
+    border-color: #fff;
+    box-shadow: 0 14px 32px -18px rgba(24, 30, 37, 0.16);
   }
 
   /* 小玻璃胶囊：标签 / kicker 徽章 */
   .glass-chip {
-    @apply inline-flex items-center gap-2 rounded-full border bg-white/55 px-4 py-1.5 font-mono text-[11px] tracking-[0.22em] text-ink-soft uppercase backdrop-blur-md;
-    border-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 14px -8px rgba(32, 31, 36, 0.18);
+    @apply inline-flex items-center gap-2 rounded-full border bg-white/70 px-4 py-1.5 font-mono text-[11px] tracking-[0.22em] text-ink-soft uppercase backdrop-blur-md;
+    border-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 14px -8px rgba(24, 30, 37, 0.14);
   }
 
-  /* 主按钮：红金渐变 + 辉光 */
+  /* 主按钮：墨色胶囊（MiniMax 式），悬停透出一丝红晕 */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white;
-    background: linear-gradient(115deg, #b5121b 0%, #d92b3a 48%, #ef6a45 100%);
-    background-size: 130% 130%;
-    background-position: 0% 50%;
-    box-shadow:
-      0 10px 24px -10px rgba(181, 18, 27, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow: 0 12px 28px -14px rgba(24, 30, 37, 0.5);
     transition:
-      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.35s,
-      background-position 0.6s;
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s,
+      background-color 0.3s;
   }
   .btn-primary:hover {
     transform: translateY(-2px);
-    background-position: 80% 50%;
+    background: color-mix(in srgb, var(--color-ink) 92%, var(--color-crimson));
     box-shadow:
-      0 16px 36px -10px rgba(181, 18, 27, 0.6),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      0 18px 36px -14px rgba(181, 18, 27, 0.35),
+      0 12px 28px -14px rgba(24, 30, 37, 0.4);
   }
 
   /* 幽灵按钮：玻璃胶囊 */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border bg-white/50 px-7 py-3 text-sm font-medium backdrop-blur-md;
-    border-color: rgba(32, 31, 36, 0.14);
+    @apply inline-flex items-center justify-center gap-2 rounded-full border bg-white/60 px-7 py-3 text-sm font-medium backdrop-blur-md;
+    border-color: rgba(24, 30, 37, 0.12);
     transition:
-      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.35s,
-      color 0.35s,
-      box-shadow 0.35s;
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s,
+      color 0.3s,
+      box-shadow 0.3s;
   }
   .btn-ghost:hover {
     @apply border-crimson/50 text-crimson;
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px -14px rgba(181, 18, 27, 0.3);
+    box-shadow: 0 14px 30px -14px rgba(181, 18, 27, 0.25);
   }
 
-  /* 渐变文字：红 → 珊瑚 → 暖金 */
+  /* 渐变文字：川大红 → 玫红 → 暖橙（MiniMax 高饱和渐变族） */
   .text-gradient {
-    background: linear-gradient(100deg, var(--color-crimson) 0%, var(--color-aurora-red) 45%, var(--color-aurora-gold) 100%);
+    background: linear-gradient(100deg, var(--color-crimson) 0%, var(--color-aurora-red) 48%, var(--color-aurora-gold) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -166,7 +159,7 @@
   /* 渐变发丝线：替代纯色分隔线 */
   .g-line {
     @apply h-px w-full;
-    background: linear-gradient(90deg, rgba(181, 18, 27, 0.45) 0%, rgba(255, 180, 92, 0.4) 45%, transparent 100%);
+    background: linear-gradient(90deg, rgba(181, 18, 27, 0.4) 0%, rgba(255, 112, 69, 0.32) 45%, transparent 100%);
   }
 
   /* 导航链接：底部渐变线滑入 */
@@ -181,10 +174,10 @@
     height: 2px;
     width: 100%;
     border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-crimson), var(--color-aurora-gold));
+    background: linear-gradient(90deg, var(--color-aurora-red), var(--color-aurora-gold));
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .nav-link:hover,
   .nav-link[aria-current='page'] {
@@ -196,13 +189,36 @@
   }
 }
 
-/* ---------- 极光背景（固定层，缓慢漂移） ---------- */
+/* ---------- 极光背景（固定层：昼/夜渐变底交叉淡化 + 单色相光斑缓漂） ---------- */
 .aurora-scene {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+}
+/* 昼间渐变底：白色基底上各一抹单色相柔光，互不重叠、干净淡出 */
+.aurora-base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1100px 760px at 88% -8%, rgba(245, 44, 107, 0.12), transparent 60%),
+    radial-gradient(1000px 720px at -12% 4%, rgba(255, 112, 69, 0.09), transparent 56%),
+    radial-gradient(900px 700px at 50% 118%, rgba(22, 169, 243, 0.1), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #f5f6f8 100%);
+}
+/* 夜间渐变底：常驻但透明度为 0，切主题时与昼层交叉淡化 */
+.aurora-base--night {
+  background:
+    radial-gradient(1100px 760px at 88% -8%, rgba(245, 44, 107, 0.14), transparent 60%),
+    radial-gradient(1000px 720px at -12% 4%, rgba(111, 44, 245, 0.12), transparent 56%),
+    radial-gradient(900px 700px at 50% 118%, rgba(22, 169, 243, 0.1), transparent 58%),
+    linear-gradient(180deg, #1b212b 0%, #141922 100%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.dark .aurora-base--night {
+  opacity: 1;
 }
 /* 细噪点，让玻璃更有质感 */
 .aurora-scene::after {
@@ -212,31 +228,32 @@
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* 光斑：昼夜恒定的半透明单色相，柔和大模糊 + 慢速微漂 */
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(72px);
+  filter: blur(80px);
   will-change: transform;
 }
 .aurora-blob--red {
-  width: 56vw;
-  height: 56vw;
-  min-width: 480px;
-  min-height: 480px;
-  top: -20vw;
+  width: 50vw;
+  height: 50vw;
+  min-width: 460px;
+  min-height: 460px;
+  top: -18vw;
   left: -14vw;
-  background: radial-gradient(closest-side, rgba(217, 43, 58, 0.28), transparent 72%);
-  animation: aurora-drift-a 26s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgba(245, 44, 107, 0.15), transparent 72%);
+  animation: aurora-drift-a 46s ease-in-out infinite alternate;
 }
 .aurora-blob--gold {
-  width: 46vw;
-  height: 46vw;
+  width: 44vw;
+  height: 44vw;
   min-width: 420px;
   min-height: 420px;
   top: -10vw;
-  right: -16vw;
-  background: radial-gradient(closest-side, rgba(255, 180, 92, 0.32), transparent 72%);
-  animation: aurora-drift-b 32s ease-in-out infinite alternate;
+  right: -15vw;
+  background: radial-gradient(closest-side, rgba(255, 112, 69, 0.12), transparent 72%);
+  animation: aurora-drift-b 54s ease-in-out infinite alternate;
 }
 .aurora-blob--blue {
   width: 44vw;
@@ -245,33 +262,33 @@
   min-height: 400px;
   bottom: -18vw;
   left: 16vw;
-  background: radial-gradient(closest-side, rgba(123, 162, 255, 0.24), transparent 72%);
-  animation: aurora-drift-c 38s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgba(22, 169, 243, 0.13), transparent 72%);
+  animation: aurora-drift-c 60s ease-in-out infinite alternate;
 }
-.aurora-blob--rose {
+.aurora-blob--violet {
   width: 36vw;
   height: 36vw;
   min-width: 320px;
   min-height: 320px;
   bottom: 6vh;
   right: 4vw;
-  background: radial-gradient(closest-side, rgba(255, 90, 99, 0.16), transparent 72%);
-  animation: aurora-drift-b 29s ease-in-out infinite alternate-reverse;
+  background: radial-gradient(closest-side, rgba(111, 44, 245, 0.1), transparent 72%);
+  animation: aurora-drift-b 50s ease-in-out infinite alternate-reverse;
 }
 @keyframes aurora-drift-a {
   from {
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(9vw, 7vh, 0) scale(1.18);
+    transform: translate3d(6vw, 5vh, 0) scale(1.1);
   }
 }
 @keyframes aurora-drift-b {
   from {
-    transform: translate3d(0, 0, 0) scale(1.08);
+    transform: translate3d(0, 0, 0) scale(1.06);
   }
   to {
-    transform: translate3d(-7vw, 9vh, 0) scale(0.94);
+    transform: translate3d(-5vw, 6vh, 0) scale(0.96);
   }
 }
 @keyframes aurora-drift-c {
@@ -279,26 +296,38 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(6vw, -9vh, 0) scale(1.22);
+    transform: translate3d(4vw, -6vh, 0) scale(1.12);
   }
 }
 
 /* ---------- 滚动渐显（配合 Base.astro 里的 IntersectionObserver） ---------- */
-/* 仅在 html.js 下隐藏初始状态，无 JS 环境内容始终可见 */
+/* 仅在 html.js 下隐藏初始状态，无 JS 环境内容始终可见；干净的 fade-up，不糊 */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
-  filter: blur(8px);
+  transform: translateY(18px);
   transition:
-    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .js [data-reveal].is-revealed {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
+}
+
+/* ---------- 主题切换的平滑配色过渡 ---------- */
+/* 切换夜间模式瞬间由 Header 脚本挂上 html.theme-anim，让所有颜色类属性统一淡入淡出 */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    color 0.5s ease,
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    fill 0.5s ease,
+    stroke 0.5s ease,
+    opacity 0.5s ease !important;
 }
 
 /* ---------- 长文排版（博客正文） ---------- */
@@ -332,11 +361,11 @@
   @apply font-bold;
 }
 .prose-book img {
-  @apply my-8 w-full rounded-2xl border border-white/70 shadow-[0_16px_40px_-24px_rgba(32,31,36,0.3)];
+  @apply my-8 w-full rounded-2xl border border-white/80 shadow-[0_16px_40px_-24px_rgba(24,30,37,0.25)];
 }
 .prose-book blockquote {
-  @apply my-8 rounded-r-2xl border-l-2 border-crimson bg-white/55 px-6 py-3 text-ink-soft backdrop-blur-md;
-  box-shadow: 0 12px 32px -20px rgba(32, 31, 36, 0.2);
+  @apply my-8 rounded-r-2xl border-l-2 border-crimson bg-white/65 px-6 py-3 text-ink-soft backdrop-blur-md;
+  box-shadow: 0 12px 32px -20px rgba(24, 30, 37, 0.16);
 }
 .prose-book ul {
   @apply my-6 list-disc pl-6;
@@ -360,9 +389,9 @@
   @apply my-8 overflow-x-auto rounded-2xl p-5 text-[0.875rem] leading-relaxed;
 }
 .prose-book pre.astro-code {
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   background: var(--color-paper-deep) !important;
-  box-shadow: 0 16px 40px -24px rgba(32, 31, 36, 0.28);
+  box-shadow: 0 16px 40px -24px rgba(24, 30, 37, 0.24);
 }
 .prose-book table {
   @apply my-8 w-full border-collapse overflow-hidden rounded-xl text-left text-[0.95em];
@@ -381,8 +410,13 @@
   .js [data-reveal] {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
+  }
+  html.theme-anim,
+  html.theme-anim *,
+  html.theme-anim *::before,
+  html.theme-anim *::after {
+    transition: none !important;
   }
   .glass-card:hover,
   .glass-lite:hover,
@@ -397,17 +431,17 @@
    新增配色请继续走 token，不要写死浅色值 */
 
 .dark {
-  /* 暖调「夜航墨」色板：与页脚 #17161b 同一暖黑系 */
-  --color-paper: #151419;
-  --color-paper-deep: #1d1c22;
-  --color-paper-sink: #232128;
-  --color-ink: #ece9e2;
-  --color-ink-soft: #a5a1ab;
-  --color-ink-faint: #77737f;
-  --color-line: #2e2c34;
-  /* 朱红提亮一档保证暗底可读；crimson-deep 语义转为「高亮红」 */
-  --color-crimson: #d5253a;
-  --color-crimson-deep: #ff8289;
+  /* 冷调「墨夜」色板：与 MiniMax 主墨色 #181E25 同族 */
+  --color-paper: #181e25;
+  --color-paper-deep: #1f2530;
+  --color-paper-sink: #272e3a;
+  --color-ink: #e9edf3;
+  --color-ink-soft: #a6adba;
+  --color-ink-faint: #6f7885;
+  --color-line: #2c333f;
+  /* 玫红提亮一档保证暗底可读；crimson-deep 语义转为「高亮红」 */
+  --color-crimson: #f5456e;
+  --color-crimson-deep: #ff92a8;
   color-scheme: dark;
 }
 
@@ -415,32 +449,26 @@
    页脚里所有 text-paper / text-paper/60 等工具类（编译为引用该变量的
    color-mix）随之重新变亮，模板无需写 dark: 变体 */
 .dark footer {
-  --color-paper: #ece9e2;
+  --color-paper: #e9edf3;
 }
 
 html.dark body {
-  background:
-    radial-gradient(1100px 760px at 88% -8%, rgba(255, 180, 92, 0.09), transparent 62%),
-    radial-gradient(1000px 720px at -12% 6%, rgba(217, 43, 58, 0.13), transparent 58%),
-    radial-gradient(900px 700px at 50% 118%, rgba(123, 162, 255, 0.1), transparent 60%),
-    linear-gradient(180deg, #161519 0%, #111015 100%);
-  background-attachment: fixed;
+  background-color: #181e25;
 }
 
-/* 玻璃拟态：暗色下改为深色烟玻璃 + 白色高光描边 */
+/* 玻璃拟态：暗色下改为冷调烟玻璃 + 白色高光描边 */
 .dark .glass-card {
-  background: linear-gradient(145deg, rgba(38, 36, 45, 0.78) 0%, rgba(26, 25, 32, 0.55) 100%);
+  background: linear-gradient(160deg, rgba(44, 52, 66, 0.72) 0%, rgba(31, 37, 48, 0.55) 100%);
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.35),
-    0 12px 32px -16px rgba(0, 0, 0, 0.55);
+    0 16px 40px -20px rgba(0, 0, 0, 0.55);
 }
 .dark .glass-card:hover {
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.35),
-    0 24px 48px -20px rgba(213, 37, 58, 0.25),
-    0 12px 32px -16px rgba(0, 0, 0, 0.55);
+    0 24px 48px -20px rgba(245, 69, 110, 0.22);
 }
 .dark .glass-lite {
   background-color: rgba(255, 255, 255, 0.05);
@@ -448,7 +476,7 @@ html.dark body {
 }
 .dark .glass-lite:hover {
   border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 28px -16px rgba(213, 37, 58, 0.28);
+  box-shadow: 0 14px 32px -18px rgba(245, 69, 110, 0.24);
 }
 .dark .glass-chip {
   background-color: rgba(255, 255, 255, 0.06);
@@ -458,20 +486,6 @@ html.dark body {
 .dark .btn-ghost {
   background-color: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.16);
-}
-
-/* 夜里的极光更透：光斑透明度略升 */
-.dark .aurora-blob--red {
-  background: radial-gradient(closest-side, rgba(217, 43, 58, 0.34), transparent 72%);
-}
-.dark .aurora-blob--gold {
-  background: radial-gradient(closest-side, rgba(255, 180, 92, 0.36), transparent 72%);
-}
-.dark .aurora-blob--blue {
-  background: radial-gradient(closest-side, rgba(123, 162, 255, 0.3), transparent 72%);
-}
-.dark .aurora-blob--rose {
-  background: radial-gradient(closest-side, rgba(255, 90, 99, 0.22), transparent 72%);
 }
 
 /* 长文排版：引用块 / 行内代码 / 图片与代码块描边 */

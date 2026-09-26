@@ -24,7 +24,7 @@ No lint or test scripts are configured. There is no tailwind.config — Tailwind
 
 ## Design system
 
-"Aurora glass"（极光玻璃拟态），defined in `src/styles/global.css` via Tailwind v4 `@theme` — warm `paper`/`ink` neutrals + `crimson` #b5121b brand + aurora accents (`aurora-red`/`aurora-gold`/`aurora-blue`), Noto Serif SC headings, sans body. Reuse these tokens and the existing component classes (`.wrap`, `.kicker`, `.glass-card`, `.glass-lite`, `.glass-chip`, `.btn-primary`, `.btn-ghost`, `.text-gradient`, `.g-line`, `.u-link`, `.prose-book` for long-form blog typography) instead of introducing ad-hoc colors or fonts.
+"Aurora glass"（极光玻璃拟态），defined in `src/styles/global.css` via Tailwind v4 `@theme` — MiniMax-style neutral `paper`/`ink` neutrals + `crimson` #b5121b brand + high-saturation aurora accents (`aurora-red` #f52c6b / `aurora-gold` #ff7045 / `aurora-blue` #16a9f3 / `aurora-violet` #6f2cf5), Noto Serif SC headings, sans body. Reuse these tokens and the existing component classes (`.wrap`, `.kicker`, `.glass-card`, `.glass-lite`, `.glass-chip`, `.btn-primary`, `.btn-ghost`, `.text-gradient`, `.g-line`, `.u-link`, `.prose-book` for long-form blog typography) instead of introducing ad-hoc colors or fonts.
 
 Dark mode（夜间模式）is class-based: `html.dark` toggled by the Header button, persisted in `localStorage` (`theme`), initialized before first paint by an inline script in `Base.astro` (falls back to `prefers-color-scheme`). `global.css` redefines the semantic `--color-*` tokens under `.dark` (plus dark body/glass/prose/aurora overrides), so token-based utilities adapt automatically — add new colors through tokens or `dark:` variants (enabled via `@custom-variant dark`), never hardcoded light values.
 

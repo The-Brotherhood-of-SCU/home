@@ -26,8 +26,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f7f4" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151419" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f8fa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#181e25" />
     <script is:inline>
       document.documentElement.classList.add('js');
       // 首屏渲染前定主题：localStorage 记忆 > 系统偏好，避免换页闪白/闪黑
@@ -49,12 +49,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
   </head>
   <body class="flex min-h-screen flex-col">
-    <!-- 固定极光背景层：缓慢漂移的光斑 + 细噪点 -->
+    <!-- 固定极光背景层：昼/夜渐变底（切主题时交叉淡化） + 缓慢漂移的单色相光斑 + 细噪点 -->
     <div class="aurora-scene" aria-hidden="true">
+      <div class="aurora-base"></div>
+      <div class="aurora-base aurora-base--night"></div>
       <div class="aurora-blob aurora-blob--red"></div>
       <div class="aurora-blob aurora-blob--gold"></div>
       <div class="aurora-blob aurora-blob--blue"></div>
-      <div class="aurora-blob aurora-blob--rose"></div>
+      <div class="aurora-blob aurora-blob--violet"></div>
     </div>
 
     <Header />
