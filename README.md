@@ -34,11 +34,7 @@ tags:
 
 ## 更新成员名录
 
-成员数据来自 GitHub 组织 API（含角色与 bio），存储在 `src/data/members.json`：
-
-```bash
-npm run sync-members   # 需要本机 gh CLI 已登录，token 有 read:org 权限
-```
+成员数据来自 GitHub 组织 API（含角色与 bio），存储在 `src/data/members.json`，由 GitHub Actions（`.github/workflows/sync-members.yml`）每天自动同步，有变化时自动提交，无需手动维护。
 
 ## 部署
 

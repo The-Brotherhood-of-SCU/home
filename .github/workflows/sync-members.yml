@@ -21,7 +21,8 @@ jobs:
 
       - name: Sync members
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 内置 GITHUB_TOKEN 无权读取组织成员（read:org），需用有 read:org 的 PAT secret
+          GH_TOKEN: ${{ secrets.MEMBERS_SYNC_TOKEN }}
         run: node scripts/sync-members.mjs
 
       - name: Commit if changed
