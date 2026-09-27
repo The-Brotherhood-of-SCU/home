@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Official homepage of The Brotherhood of SCU（四川大学开源社区）— an Astro 5 + Tailwind CSS v4 static site, Chinese-language (`lang="zh-CN"`), deployed to GitHub Pages at https://scubro.dev. `README.md` covers contributor workflows (writing posts, syncing members) in Chinese.
+Official homepage of The Brotherhood of SCU（四川大学开源社区）— an Astro 7 + Tailwind CSS v4 static site, Chinese-language (`lang="zh-CN"`), deployed to GitHub Pages at https://scubro.dev. `README.md` covers contributor workflows (writing posts, syncing members) in Chinese.
 
 ## Commands
 
